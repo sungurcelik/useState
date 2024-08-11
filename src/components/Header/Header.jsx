@@ -9,28 +9,40 @@ const Header = () => {
    * useState kullanılırken ilk tanımladığımız değer
    * state'in yani durumun değeridir. ikinci değer(set ile başlayan) durumun değerini güncelleyecek olan değerdir.
    */
+  const [basilanButon, setBasilanButon] = useState(null);
 
-  const [kullaniciVarMi, setKullaniciVarMi] = useState(false);
+  const menuIsimler = ["Ana Sayfa", "Hakkımızda", "Ürünlerimiz", "İletişim"];
   return (
     <header className="header">
       <div className="header-logo">Logo</div>
       <nav className="navbar">
-        <a href="">Ana Sayfa</a>
-        <a href="">Hakkımızda</a>
-        <a href="">Ürünlerimiz</a>
-        <a href="">İletişim</a>
+        {menuIsimler.map((menuIsmi) => (
+          <a>{menuIsmi}</a>
+        ))}
       </nav>
       <div className="header-right">
-        {kullaniciVarMi === true ? (
-          <CustomButton buttonTitle={"Çıkış Yap"} buttonColor={"red"} />
+        {basilanButon ? (
+          <CustomButton
+            buttonTitle={`${basilanButon} Olarak Çıkış Yap`}
+            buttonColor={"red"}
+            onClick={() => setBasilanButon(null)}
+          />
         ) : (
           <>
             <CustomButton
-              onClick={() => setKullaniciVarMi(true)}
+              onClick={() => {
+                setBasilanButon("Kullanici");
+              }}
               buttonTitle={"Kullanıcı Girişi"}
               buttonColor={"cadetblue"}
             />
-            <CustomButton buttonTitle={"Admin Girişi"} buttonColor={"orange"} />
+            <CustomButton
+              onClick={() => {
+                setBasilanButon("Yönetici");
+              }}
+              buttonTitle={"Admin Girişi"}
+              buttonColor={"orange"}
+            />
           </>
         )}
       </div>
