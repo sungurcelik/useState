@@ -33,3 +33,13 @@
   border-radius: 10px;
   align-items: center;
 }
+
+.infoBox {
+  background-color: yellowgreen;
+  padding: 5px;
+  border-radius: 5px;
+  color: chocolate;
+  font-weight: 800;
+  font-size: 20px;
+}
+

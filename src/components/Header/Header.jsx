@@ -1,8 +1,10 @@
 import "./Header.css";
 import CustomButton from "../CustomButton/CustomButton";
 import { useState } from "react";
+import InfoBox from "../InfoBox/InfoBox";
+import { Modal } from "../Modal/Modal";
 
-const Header = () => {
+export const Header = ({ aktifKullaniciSayisi, setAktifKullanici }) => {
   /**
    * Componentlerin anlık durumlarını tutmak için
    * useState Hooksu kullanılır.
@@ -10,6 +12,7 @@ const Header = () => {
    * state'in yani durumun değeridir. ikinci değer(set ile başlayan) durumun değerini güncelleyecek olan değerdir.
    */
   const [basilanButon, setBasilanButon] = useState(null);
+  const [modalGoster, setModalGoster] = useState(false);
 
   const menuIsimler = ["Ana Sayfa", "Hakkımızda", "Ürünlerimiz", "İletişim"];
   return (
@@ -25,12 +28,18 @@ const Header = () => {
           <CustomButton
             buttonTitle={`${basilanButon} Olarak Çıkış Yap`}
             buttonColor={"red"}
-            onClick={() => setBasilanButon(null)}
+            onClick={() => {
+              if (basilanButon === "Kullanici") {
+                setAktifKullanici(aktifKullaniciSayisi - 1);
+              }
+              setBasilanButon(null);
+            }}
           />
         ) : (
           <>
             <CustomButton
               onClick={() => {
+                setAktifKullanici(aktifKullaniciSayisi + 1);
                 setBasilanButon("Kullanici");
               }}
               buttonTitle={"Kullanıcı Girişi"}
@@ -43,11 +52,28 @@ const Header = () => {
               buttonTitle={"Admin Girişi"}
               buttonColor={"orange"}
             />
+            <CustomButton
+              onClick={() => setModalGoster(true)}
+              buttonTitle={"Kayıt Ol"}
+              buttonColor={"green"}
+            />
           </>
         )}
+        {basilanButon === "Yönetici" && (
+          <InfoBox
+            infoMetin={"Aktif Kullanıcı Sayısı"}
+            infoDeger={aktifKullaniciSayisi}
+          />
+        )}
+
+        {basilanButon === "Kullanici" && (
+          <InfoBox
+            infoMetin={"Sizinle birlikte kullanıcı sayısı"}
+            infoDeger={aktifKullaniciSayisi}
+          />
+        )}
       </div>
+      {modalGoster === true && <Modal setModalGoster={setModalGoster} />}
     </header>
   );
 };
-
-export default Header;
